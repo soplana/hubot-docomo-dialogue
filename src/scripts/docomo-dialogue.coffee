@@ -17,7 +17,7 @@
 module.exports = (robot) ->
   robot.brain.data.dialogue = {}
 
-  robot.respond /.*/i, (res) ->
+  robot.hear /.*/, (res) ->
     p = parseFloat(process.env.HUBOT_DOCOMO_DIALOGUE_P ? '0.3')
     return unless Math.random() < p
 
@@ -37,5 +37,7 @@ module.exports = (robot) ->
           res.send 'docomo-dialogue: error'
         else
           data = JSON.parse(body)
-          res.send data.utt
+          res.send data.utt.replace(/！/, '...').replace(/[。|？]$/, (a) ->
+            '...' + a
+          )
           robot.brain.data.dialogue[room_id] = {context: data.context, mode: data.mode}
