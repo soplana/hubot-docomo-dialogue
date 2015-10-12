@@ -37,7 +37,11 @@ module.exports = (robot) ->
           res.send 'docomo-dialogue: error'
         else
           data = JSON.parse(body)
-          res.send data.utt.replace(/！/, '...').replace(/[。|？]$/, (a) ->
-            '...' + a
-          )
+          if ''.match(/[。|！|？]$/)
+            res.send data.utt.replace(/！/, '...').replace(/[。|？]$/, (a) ->
+              '...' + a
+            )
+          else
+            res.send data.utt+"..."
+
           robot.brain.data.dialogue[room_id] = {context: data.context, mode: data.mode}
