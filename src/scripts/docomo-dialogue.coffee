@@ -17,7 +17,7 @@
 module.exports = (robot) ->
   robot.brain.data.dialogue = {}
 
-  robot.hear /.*/, (res) ->
+  robot.respond /.*/i, (res) ->
     p = parseFloat(process.env.HUBOT_DOCOMO_DIALOGUE_P ? '0.3')
     return unless Math.random() < p
 
